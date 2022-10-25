@@ -2,7 +2,7 @@
     {
         static void Main(string[] args)
         {
-				// Assemble your system here from all the classes
+            IDoor door = new IDoor();
 
             bool finish = false;
             do
