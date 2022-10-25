@@ -1,8 +1,11 @@
-﻿    class Program
+﻿using ChargingCabinet.Interfaces;
+using ChargingCabinet.Models;
+
+class Program
     {
         static void Main(string[] args)
         {
-            IDoor door = new IDoor();
+            Door door = new Door();
 
             bool finish = false;
             do
@@ -19,11 +22,11 @@
                         break;
 
                     case 'O':
-                        door.OnDoorOpen();
+                        door.onDoorOpen();
                         break;
 
                     case 'C':
-                        door.OnDoorClose();
+                        door.onDoorClose();
                         break;
 
                     case 'R':
