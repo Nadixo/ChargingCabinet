@@ -10,6 +10,13 @@ namespace ChargingCabinet.Interfaces
 
     public interface IUsbCharger
     {
+        public enum UsbChargerState
+        {
+            notCharging,
+            charging,
+            fullyCharged,
+            stopCharging
+        }
         // Event triggered on new current value
         event EventHandler<CurrentEventArgs> CurrentValueEvent;
 

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ChargingCabinet.Interfaces
 {
-    internal interface IDisplay
+    public interface IDisplay
     {
+        void ShowDisplay(string displayTekst);
     }
 }
