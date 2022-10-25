@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Timers;
+using ChargingCabinet.Interfaces;
 
-namespace UsbSimulator
+namespace ChargingCabinet.Simulators
 {
     public class UsbChargerSimulator : IUsbCharger
     {
@@ -43,7 +44,7 @@ namespace UsbSimulator
                 _ticksSinceStart++;
                 if (Connected && !_overload)
                 {
-                    double newValue = MaxCurrent - 
+                    double newValue = MaxCurrent -
                                       _ticksSinceStart * (MaxCurrent - FullyChargedCurrent) / (ChargeTimeMinutes * 60 * 1000 / CurrentTickInterval);
                     CurrentValue = Math.Max(newValue, FullyChargedCurrent);
                 }
@@ -109,7 +110,7 @@ namespace UsbSimulator
 
         private void OnNewCurrent()
         {
-            CurrentValueEvent?.Invoke(this, new CurrentEventArgs() {Current = this.CurrentValue});
+            CurrentValueEvent?.Invoke(this, new CurrentEventArgs() { Current = CurrentValue });
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UsbSimulator
+namespace ChargingCabinet.Interfaces
 {
     public class CurrentEventArgs : EventArgs
     {

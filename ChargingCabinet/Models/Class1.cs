@@ -1,4 +1,4 @@
-﻿namespace ChargingCabinet
+﻿namespace ChargingCabinet.Models
 {
     public class Class1
     {
