@@ -23,6 +23,8 @@ namespace ChargingCabinet.Interfaces
 
         void onDoorOpen();
         void onDoorClose();
+        void lockDoor();
+        void unlockDoor();
 
     }
 }
