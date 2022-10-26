@@ -8,7 +8,7 @@ namespace ChargingCabinet.Interfaces
 {
     public class RFIDReaderEventArgs : EventArgs
     {
-        public double RFIDReaderValue { get; set; }
+        public int RFIDReaderValue { get; set; }
     }
     public interface IRFIDReader
     {
