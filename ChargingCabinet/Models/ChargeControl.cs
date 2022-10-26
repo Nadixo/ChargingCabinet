@@ -23,12 +23,6 @@ namespace ChargingCabinet.Models
 
 		bool IUsbCharger.Connected => throw new NotImplementedException();
 
-		public event EventHandler<CurrentEventArgs> CurrentValueEvent
-		{
-			add { throw new NotImplementedException(); }
-			remove { throw new NotImplementedException(); }
-		}
-
 		public void StartCharge()
 		{
 			chargerSimulator?.StartCharge();
@@ -65,5 +59,24 @@ namespace ChargingCabinet.Models
                     break;
             }
 		}
-	}
+
+        private bool connected;
+        public bool Connected
+        {
+            get
+            {
+                connected = chargerSimulator.Connected;
+                return connected;
+            }
+            set { connected = chargerSimulator.Connected; }
+
+        }
+
+
+		public event EventHandler<CurrentEventArgs> CurrentValueEvent
+		{
+			add { throw new NotImplementedException(); }
+			remove { throw new NotImplementedException(); }
+		}
+    }
 }
