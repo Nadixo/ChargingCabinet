@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ladeskab.Interfaces;
+using ChargingCabinet.Interfaces;
 
 namespace ChargingCabinet.Models
 {
@@ -82,6 +82,22 @@ namespace ChargingCabinet.Models
             }
         }
 
-        // Her mangler de andre trigger handlere
+        private void HandleDoorChangedEvent(object sender, DoorEventArgs e)
+        {
+            switch (e.doorState)
+            {
+                case doorState.Closed:
+                    // Print "load RFID"
+                    _state = LadeskabState.Available;
+                    break;
+                case doorState.Opened:
+                    // Print "Connect phone"
+                    _state = LadeskabState.DoorOpen;
+                    break;
+                case doorState.Locked:
+                    // Nothing is to happen here
+                    break;
+            }
+        }
     }
 }
