@@ -7,13 +7,13 @@ class Program
         {
             Door door = new Door();
             RFIDReader rfidReader = new RFIDReader();
+            Display display = new Display();
 
             bool finish = false;
             do
             {
-                string input;
-                System.Console.WriteLine("Indtast E, O, C, R: ");
-                input = Console.ReadLine();
+                display.ShowDisplay("Indtast E, O, C, R: ");
+                string ?input = Console.ReadLine();
                 if (string.IsNullOrEmpty(input)) continue;
 
                 switch (input[0])
@@ -31,8 +31,8 @@ class Program
                         break;
 
                     case 'R':
-                        System.Console.WriteLine("Indtast RFID id: ");
-                        string idString = System.Console.ReadLine();
+                        display.ShowDisplay("Indtast RFID id: ");
+                        string ?idString = Console.ReadLine();
 
                         int id = Convert.ToInt32(idString);
                         rfidReader.setRFIDState(id);
