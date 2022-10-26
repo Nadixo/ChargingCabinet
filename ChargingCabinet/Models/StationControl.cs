@@ -10,7 +10,6 @@ namespace ChargingCabinet.Models
 {
     public class StationControl
     {
-        // Enum med tilstande ("states") svarende til tilstandsdiagrammet for klassen
         private enum LadeskabState
         {
             Available,
@@ -18,14 +17,13 @@ namespace ChargingCabinet.Models
             DoorOpen
         };
 
-        // Her mangler flere member variable
         private LadeskabState _state;
         private IUsbCharger _charger;
         private int _oldId;
         private IDoor _door;
         private IDisplay _display;
 
-        private string logFile = "logfile.txt"; // Navnet på systemets log-fil
+        private string logFile = "logfile.txt";
 
         public StationControl(IDoor door, IRFIDReader rfidReader, IUsbCharger chargeControl, IDisplay display)
         {
@@ -36,13 +34,11 @@ namespace ChargingCabinet.Models
             _door = door;
         }
 
-        // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
         private void RfidDetected(int id)
         {
             switch (_state)
             {
                 case LadeskabState.Available:
-                    // Check for ladeforbindelse
                     if (_charger.Connected)
                     {
                         _door.lockDoor();
