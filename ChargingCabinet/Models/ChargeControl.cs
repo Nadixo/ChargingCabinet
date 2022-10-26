@@ -11,7 +11,7 @@ namespace ChargingCabinet.Models
 	internal class ChargeControl : IUsbCharger
 	{
 		UsbChargerSimulator chargerSimulator;
-		Display display;
+		Display? display;
 
 		public IUsbCharger.UsbChargerState State { get; set; }
 
@@ -22,7 +22,6 @@ namespace ChargingCabinet.Models
 		}
 
 		double IUsbCharger.CurrentValue => throw new NotImplementedException();
-		bool IUsbCharger.Connected => throw new NotImplementedException();
 
 		public void StartCharge()
 		{
@@ -34,7 +33,7 @@ namespace ChargingCabinet.Models
 			chargerSimulator?.StopCharge();
 		}
 
-		public void HandleCurrentEvent(object sender, CurrentEventArgs e)
+		public void HandleCurrentEvent(object? sender, CurrentEventArgs e)
 		{
 			double c = e.Current;
 			switch (c)
@@ -47,16 +46,16 @@ namespace ChargingCabinet.Models
                     break;
 				case double n when (n > 0 && n <= 5):
 					State = IUsbCharger.UsbChargerState.fullyCharged;
-					display.ShowDisplay("Phone is fully charged");
+					display?.ShowDisplay("Phone is fully charged");
 					break;
                 case double n when (n > 5 && n <= 500):
 					State = IUsbCharger.UsbChargerState.charging;
-					display.ShowDisplay("Phone is charging");
+					display?.ShowDisplay("Phone is charging");
                     break;
                 case double n when (n > 500):
 					StopCharge();
 					State = IUsbCharger.UsbChargerState.stopCharging;
-					display.ShowDisplay("Something went wrong, charging stopped");
+					display?.ShowDisplay("Something went wrong, charging stopped");
                     break;
             }
 		}
