@@ -27,7 +27,14 @@ namespace ChargingCabinet.Models
 
         private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
-        // Her mangler constructor
+        public StationControl(IDoor door, IRFIDReader rfidReader, IUsbCharger chargeControl, IDisplay display)
+        {
+            door.CurrentDoorEvent += HandleDoorEvent;
+            rfidReader.RFIDReaderChangedEvent += HandleRFIDEvent;
+            _display = display;
+            _charger = chargeControl;
+            _door = door;
+        }
 
         // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
         private void RfidDetected(int id)
@@ -61,7 +68,6 @@ namespace ChargingCabinet.Models
                     break;
 
                 case LadeskabState.Locked:
-                    // Check for correct ID
                     if (id == _oldId)
                     {
                         _charger.StopCharge();
@@ -83,7 +89,7 @@ namespace ChargingCabinet.Models
             }
         }
 
-        private void HandleDoorChangedEvent(object sender, DoorEventArgs e)
+        private void HandleDoorEvent(object? sender, DoorEventArgs e)
         {
             switch (e.doorState)
             {
@@ -99,6 +105,11 @@ namespace ChargingCabinet.Models
                     // Nothing is to happen here
                     break;
             }
+        }
+
+        private void HandleRFIDEvent(object? sender, RFIDReaderEventArgs e)
+        {
+            RfidDetected(e.RFIDReaderValue);
         }
     }
 }
