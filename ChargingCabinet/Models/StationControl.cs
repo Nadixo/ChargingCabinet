@@ -10,14 +10,14 @@ namespace ChargingCabinet.Models
 {
     public class StationControl
     {
-        private enum LadeskabState
+        private enum ChargingCabinetState
         {
             Available,
             Locked,
             DoorOpen
         };
 
-        private LadeskabState _state;
+        private ChargingCabinetState _state;
         private IUsbCharger _charger;
         private int _oldId;
         private IDoor _door;
@@ -38,7 +38,7 @@ namespace ChargingCabinet.Models
         {
             switch (_state)
             {
-                case LadeskabState.Available:
+                case ChargingCabinetState.Available:
                     if (_charger.Connected)
                     {
                         _door.lockDoor();
@@ -50,7 +50,7 @@ namespace ChargingCabinet.Models
                         }
 
                         _display.ShowDisplay("Skabet er låst og din telefon lades. Brug dit RFID tag til at låse op.");
-                        _state = LadeskabState.Locked;
+                        _state = ChargingCabinetState.Locked;
                     }
                     else
                     {
@@ -59,11 +59,11 @@ namespace ChargingCabinet.Models
 
                     break;
 
-                case LadeskabState.DoorOpen:
+                case ChargingCabinetState.DoorOpen:
                     // Ignore
                     break;
 
-                case LadeskabState.Locked:
+                case ChargingCabinetState.Locked:
                     if (id == _oldId)
                     {
                         _charger.StopCharge();
@@ -74,7 +74,7 @@ namespace ChargingCabinet.Models
                         }
 
                         _display.ShowDisplay("Tag din telefon ud af skabet og luk døren");
-                        _state = LadeskabState.Available;
+                        _state = ChargingCabinetState.Available;
                     }
                     else
                     {
@@ -91,11 +91,11 @@ namespace ChargingCabinet.Models
             {
                 case doorState.Closed:
                     _display.ShowDisplay("Load RFID");
-                    _state = LadeskabState.Available;
+                    _state = ChargingCabinetState.Available;
                     break;
                 case doorState.Opened:
                     _display.ShowDisplay("Connect phone");
-                    _state = LadeskabState.DoorOpen;
+                    _state = ChargingCabinetState.DoorOpen;
                     break;
                 case doorState.Locked:
                     // Nothing is to happen here
