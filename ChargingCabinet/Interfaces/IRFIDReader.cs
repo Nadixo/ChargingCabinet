@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace ChargingCabinet.Interfaces
 {
-    internal interface IRFIDReader
+    public class RFIDReaderChangedEventArgs : EventArgs
     {
+        public double RFIDReaderValue { get; set; }
+    }
+    public interface IRFIDReader
+    {
+        event EventHandler<RFIDReaderChangedEventArgs> RFIDReaderChangedEvent;
     }
 }
