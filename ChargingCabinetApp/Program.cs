@@ -6,6 +6,7 @@ class Program
         static void Main(string[] args)
         {
             Door door = new Door();
+            RFIDReader rfidReader = new RFIDReader();
 
             bool finish = false;
             do
@@ -34,7 +35,7 @@ class Program
                         string idString = System.Console.ReadLine();
 
                         int id = Convert.ToInt32(idString);
-                        rfidReader.OnRfidRead(id);
+                        rfidReader.setRFIDState(id);
                         break;
 
                     default:
