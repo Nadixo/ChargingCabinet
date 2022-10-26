@@ -20,9 +20,10 @@ namespace ChargingCabinet.Models
 
         // Her mangler flere member variable
         private LadeskabState _state;
-        private IChargeControl _charger;
+        private IUsbCharger _charger;
         private int _oldId;
         private IDoor _door;
+        private IDisplay _display;
 
         private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
@@ -37,7 +38,7 @@ namespace ChargingCabinet.Models
                     // Check for ladeforbindelse
                     if (_charger.Connected)
                     {
-                        _door.LockDoor();
+                        _door.lockDoor();
                         _charger.StartCharge();
                         _oldId = id;
                         using (var writer = File.AppendText(logFile))
@@ -45,12 +46,12 @@ namespace ChargingCabinet.Models
                             writer.WriteLine(DateTime.Now + ": Skab låst med RFID: {0}", id);
                         }
 
-                        Console.WriteLine("Skabet er låst og din telefon lades. Brug dit RFID tag til at låse op.");
+                        _display.ShowDisplay("Skabet er låst og din telefon lades. Brug dit RFID tag til at låse op.");
                         _state = LadeskabState.Locked;
                     }
                     else
                     {
-                        Console.WriteLine("Din telefon er ikke ordentlig tilsluttet. Prøv igen.");
+                        _display.ShowDisplay("Din telefon er ikke ordentlig tilsluttet. Prøv igen.");
                     }
 
                     break;
@@ -64,18 +65,18 @@ namespace ChargingCabinet.Models
                     if (id == _oldId)
                     {
                         _charger.StopCharge();
-                        _door.UnlockDoor();
+                        _door.unlockDoor();
                         using (var writer = File.AppendText(logFile))
                         {
                             writer.WriteLine(DateTime.Now + ": Skab låst op med RFID: {0}", id);
                         }
 
-                        Console.WriteLine("Tag din telefon ud af skabet og luk døren");
+                        _display.ShowDisplay("Tag din telefon ud af skabet og luk døren");
                         _state = LadeskabState.Available;
                     }
                     else
                     {
-                        Console.WriteLine("Forkert RFID tag");
+                        _display.ShowDisplay("Forkert RFID tag");
                     }
 
                     break;
@@ -87,11 +88,11 @@ namespace ChargingCabinet.Models
             switch (e.doorState)
             {
                 case doorState.Closed:
-                    // Print "load RFID"
+                    _display.ShowDisplay("Load RFID");
                     _state = LadeskabState.Available;
                     break;
                 case doorState.Opened:
-                    // Print "Connect phone"
+                    _display.ShowDisplay("Connect phone");
                     _state = LadeskabState.DoorOpen;
                     break;
                 case doorState.Locked:
