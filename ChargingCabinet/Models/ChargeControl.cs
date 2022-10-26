@@ -8,16 +8,17 @@ using ChargingCabinet.Simulators;
 
 namespace ChargingCabinet.Models
 {
-	internal class ChargeControl : IUsbCharger
+	public class ChargeControl : IUsbCharger
 	{
 		UsbChargerSimulator chargerSimulator;
 		Display? display;
 
 		public IUsbCharger.UsbChargerState State { get; set; }
 
-		public ChargeControl(UsbChargerSimulator charger)
+		public ChargeControl(UsbChargerSimulator charger, Display display)
 		{
 			chargerSimulator = charger;
+			this.display = display;
 			charger.CurrentValueEvent += HandleCurrentEvent;
 		}
 
