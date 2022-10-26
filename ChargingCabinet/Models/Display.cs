@@ -7,7 +7,7 @@ using ChargingCabinet.Interfaces;
 
 namespace ChargingCabinet.Models
 {
-    public class Display
+    public class Display : IDisplay
     {
         public void ShowDisplay(string displayTekst)
         {
