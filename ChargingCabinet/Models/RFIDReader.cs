@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace ChargingCabinet.Models
 {
-    internal class RFIDReader : IRFIDReader
+    public class RFIDReader : IRFIDReader
     {
 
-        public event EventHandler<RFIDReaderChangedEventArgs>? RFIDReaderChangedEvent;
+        public event EventHandler<RFIDReaderEventArgs>? RFIDReaderChangedEvent;
 
         public void setRFIDState(int nRFID)
         {
             RFIDReaderChangedEvent?
-                .Invoke(this, new RFIDReaderChangedEventArgs { RFIDReaderValue = nRFID } );
+                .Invoke(this, new RFIDReaderEventArgs { RFIDReaderValue = nRFID } );
         }
     }
 }
