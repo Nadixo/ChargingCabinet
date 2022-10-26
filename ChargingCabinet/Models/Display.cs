@@ -9,7 +9,7 @@ namespace ChargingCabinet.Models
 {
     public class Display
     {
-        void ShowDisplay(string displayTekst)
+        public void ShowDisplay(string displayTekst)
         {
             Console.WriteLine(displayTekst);
         }
