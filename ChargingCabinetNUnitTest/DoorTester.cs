@@ -60,5 +60,28 @@ namespace ChargingCabinetNUnitTest
 
             Assert.Throws<ArgumentException>(() => door.lockDoor());
         }
+
+        [TestCase(doorState.Opened)]
+        [TestCase(doorState.Closed)]
+        public void UnlockOpenedOrClosedDoor(doorState testState)
+        {
+            doorState state = testState;
+            door.NewDoorState(state);
+            door.CurrentDoorEvent += (noArg, arg) => state = arg.doorState;
+            door.unlockDoor();
+
+            Assert.Throws<ArgumentException>(() => door.unlockDoor());
+        }
+
+        [Test]
+        public void UnlockLockedDoor()
+        {
+            doorState state = doorState.Locked;
+            door.NewDoorState(state);
+            door.CurrentDoorEvent += (noArg, arg) => state = arg.doorState;
+            door.unlockDoor();
+
+            Assert.That(state, Is.EqualTo(doorState.Closed));
+        }
     }
 }
