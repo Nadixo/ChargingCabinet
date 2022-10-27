@@ -16,5 +16,16 @@ namespace ChargingCabinetNUnitTest
         {
             door = new Door();
         }
+
+        [TestCase(doorState.Closed)]
+        [TestCase(doorState.Opened)]
+        public void SetDoorStateOpenedClosed(doorState testState)
+        {
+            doorState state = testState;
+            door.CurrentDoorEvent += (noArg, arg) => state = arg.doorState;
+            door.NewDoorState(state);
+
+            Assert.That(state, Is.EqualTo(testState));
+        }
     }
 }
