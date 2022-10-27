@@ -7,7 +7,7 @@ namespace ChargingCabinet.Models
 		private doorState _state;
 		public event EventHandler<DoorEventArgs>? CurrentDoorEvent;
 
-		private void NewDoorState(doorState state)
+		public void NewDoorState(doorState state)
 		{
 			if (_state != state)
 			{
