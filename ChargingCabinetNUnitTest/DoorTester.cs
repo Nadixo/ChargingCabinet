@@ -56,7 +56,6 @@ namespace ChargingCabinetNUnitTest
             doorState state = doorState.Opened;
             door.NewDoorState(state);
             door.CurrentDoorEvent += (noArg, arg) => state = arg.doorState;
-            door.lockDoor();
 
             Assert.Throws<ArgumentException>(() => door.lockDoor());
         }
@@ -68,7 +67,6 @@ namespace ChargingCabinetNUnitTest
             doorState state = testState;
             door.NewDoorState(state);
             door.CurrentDoorEvent += (noArg, arg) => state = arg.doorState;
-            door.unlockDoor();
 
             Assert.Throws<ArgumentException>(() => door.unlockDoor());
         }
