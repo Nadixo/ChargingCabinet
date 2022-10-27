@@ -96,6 +96,7 @@ namespace ChargingCabinetNUnitTest
         public void OpenClosedDoor()
         {
             doorState state = doorState.Closed;
+            door.NewDoorState(state);
             door.CurrentDoorEvent += (noArg, arg) => state = arg.doorState;
             door.onDoorOpen();
 
