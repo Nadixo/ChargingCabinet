@@ -81,5 +81,25 @@ namespace ChargingCabinetNUnitTest
 
             Assert.That(state, Is.EqualTo(doorState.Closed));
         }
+
+        [Test]
+        public void CloseOpenedDoor()
+        {
+            doorState state = doorState.Opened;
+            door.CurrentDoorEvent += (noArg, arg) => state = arg.doorState;
+            door.onDoorClose();
+
+            Assert.That(state, Is.EqualTo(doorState.Closed));
+        }
+
+        [Test]
+        public void OpenClosedDoor()
+        {
+            doorState state = doorState.Closed;
+            door.CurrentDoorEvent += (noArg, arg) => state = arg.doorState;
+            door.onDoorOpen();
+
+            Assert.That(state, Is.EqualTo(doorState.Opened));
+        }
     }
 }
