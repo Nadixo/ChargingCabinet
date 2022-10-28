@@ -22,7 +22,7 @@ namespace ChargingCabinetNUnitTest
         [SetUp]
         public void Setup()
         {
-            charger = Substitute.For<IUsbCharger>();
+            charger = Substitute.For<UsbChargerSimulator>();
             display = Substitute.For<IDisplay>();
             door = Substitute.For<IDoor>();
             rfidReader = Substitute.For<IRFIDReader>();
@@ -31,11 +31,21 @@ namespace ChargingCabinetNUnitTest
         }
 
         [TestCase(1)]
-        public void OpenDoorDoesNotLockOnRFIDScan(int id)
+        public void LockOpenDoorOnRFIDScan(int id)
         {
+            door.CurrentDoorEvent += Raise.EventWith(new DoorEventArgs { doorState = doorState.Opened });
             rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = id });
 
             door.DidNotReceive().lockDoor();
+        }
+
+        [TestCase(1)]
+        public void LockClosedDoorOnRFIDScan(int id)
+        {
+            door.CurrentDoorEvent += Raise.EventWith(new DoorEventArgs { doorState = doorState.Closed });
+            rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = id });
+
+            door.Received().lockDoor();
         }
     }
 }
