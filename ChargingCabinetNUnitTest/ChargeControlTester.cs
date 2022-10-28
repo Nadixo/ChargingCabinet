@@ -41,5 +41,22 @@ namespace ChargingCabinetNUnitTest
 
             Assert.That(state, Is.EqualTo(charger?.State));
         }
+
+        [TestCase(int.MaxValue, false)]
+        [TestCase(0.1, false)]
+        [TestCase(0, false)]
+        [TestCase(-0.1, true)]
+        [TestCase(-int.MaxValue, true)]
+        public void CurrentChangeCheckForException(double current, bool Throw)
+        {
+            if (Throw)
+                Assert.Throws<ArgumentException>(() =>
+                    charger?.HandleCurrentEvent(chargerSimulator, 
+                    new CurrentEventArgs { Current = current }));
+            else
+                Assert.DoesNotThrow(() =>
+                    charger?.HandleCurrentEvent(chargerSimulator, 
+                    new CurrentEventArgs { Current = current }));
+        }
     }
 }
