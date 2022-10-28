@@ -39,6 +39,15 @@ namespace ChargingCabinetNUnitTest
 			Assert.That(eventArgs, Is.Not.Null);
 		}
 
+		[TestCase(1, 2)]
+		[TestCase(-1, -2)]
+		public void SetRFIDTwice(int oldR, int newR)
+		{
+            rfid.RFIDReaderChangedEvent += (noArg, arg) => eventArgs = arg;
+			rfid.setRFIDState(oldR);
+			rfid.setRFIDState(newR);
 
-	}
+			Assert.That(eventArgs?.RFIDReaderValue, Is.EqualTo(newR));
+        }
+    }
 }
