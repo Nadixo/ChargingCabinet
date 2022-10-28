@@ -26,7 +26,7 @@ namespace ChargingCabinetNUnitTest
             Console.SetOut(stringWriter);
 
             display.ShowDisplay(s);
-            Assert.That(s, Is.EqualTo(stringWriter.ToString()));
+            Assert.That(s + "\r\n", Is.EqualTo(stringWriter.ToString()));
         }
     }
 }
