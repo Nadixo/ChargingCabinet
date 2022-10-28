@@ -57,5 +57,15 @@ namespace ChargingCabinetNUnitTest
 
             door.DidNotReceive().lockDoor();
         }
+
+        [TestCase(1, 1)]
+        public void UnlockClosedDoorSetSameRFIDTwice(int oldRfid, int newRfid)
+        {
+            door.CurrentDoorEvent += Raise.EventWith(new DoorEventArgs { doorState = doorState.Closed });
+            rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = oldRfid });
+            rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = newRfid });
+
+            door.Received().unlockDoor();
+        }
     }
 }
