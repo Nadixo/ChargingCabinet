@@ -16,7 +16,7 @@ namespace ChargingCabinetNUnitTest
         private StationControl stationControl;
         private IDoor door;
         private IRFIDReader rfidReader;
-        private IUsbCharger charger;
+        private UsbChargerSimulator charger;
         private IDisplay display;
 
         [SetUp]
@@ -46,6 +46,16 @@ namespace ChargingCabinetNUnitTest
             rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = id });
 
             door.Received().lockDoor();
+        }
+
+        [TestCase(1)]
+        public void LockClosedDoorUnconnectedChargerOnRFIDScan(int id)
+        {
+            charger.Connected = false;
+            door.CurrentDoorEvent += Raise.EventWith(new DoorEventArgs { doorState = doorState.Closed });
+            rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = id });
+
+            door.DidNotReceive().lockDoor();
         }
     }
 }
