@@ -71,7 +71,6 @@ namespace ChargingCabinetNUnitTest
         }
 
         [TestCase(1, 1)]
-        [TestCase(1, 2)]
         public void UnlockClosedDoorSetRFIDTwice(int oldId, int newId)
         {
             charger.Connected = true;
@@ -79,8 +78,18 @@ namespace ChargingCabinetNUnitTest
             rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = oldId });
             rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = newId });
 
-            if (oldId == newId) door.Received().unlockDoor();
-            else door.DidNotReceive().unlockDoor();
+            door.Received().unlockDoor();
+        }
+
+        [TestCase(1, 2)]
+        public void UnlockClosedDoorSetRFIDToDifferentIds(int oldId, int newId)
+        {
+            charger.Connected = true;
+            door.CurrentDoorEvent += Raise.EventWith(new DoorEventArgs { doorState = doorState.Closed });
+            rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = oldId });
+            rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = newId });
+
+            door.DidNotReceive().unlockDoor();
         }
     }
 }
