@@ -18,14 +18,14 @@ namespace ChargingCabinet.Models
         };
 
         private ChargingCabinetState _state;
-        private IUsbCharger _charger;
+        private IChargeControl _charger;
         private int _oldId;
         private IDoor _door;
         private IDisplay _display;
 
         private string logFile = "logfile.txt";
 
-        public StationControl(IDoor door, IRFIDReader rfidReader, IUsbCharger chargeControl, IDisplay display)
+        public StationControl(IDoor door, IRFIDReader rfidReader, IChargeControl chargeControl, IDisplay display)
         {
             door.CurrentDoorEvent += HandleDoorEvent;
             rfidReader.RFIDReaderChangedEvent += HandleRFIDEvent;

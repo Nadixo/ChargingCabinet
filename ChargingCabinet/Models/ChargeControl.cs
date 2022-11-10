@@ -8,12 +8,13 @@ using ChargingCabinet.Simulators;
 
 namespace ChargingCabinet.Models
 {
-	public class ChargeControl : IUsbCharger
+	public class ChargeControl : IChargeControl
 	{
 		UsbChargerSimulator chargerSimulator;
 		Display? display;
 
-		public IUsbCharger.UsbChargerState State { get; set; }
+		//public IUsbCharger.UsbChargerState usbState { get; set; }
+		public IChargeControl.UsbChargerState State { get; set; }
 
 		public ChargeControl(UsbChargerSimulator charger, Display display)
 		{
@@ -22,8 +23,7 @@ namespace ChargingCabinet.Models
 			charger.CurrentValueEvent += HandleCurrentEvent;
 		}
 
-		double IUsbCharger.CurrentValue => throw new NotImplementedException();
-
+		
 		public void StartCharge()
 		{
 			chargerSimulator?.StartCharge();
@@ -43,19 +43,19 @@ namespace ChargingCabinet.Models
                     throw new ArgumentException("I don't know how this happened but " +
 												"your phone is somehow losing power");
 				case 0:
-                    State = IUsbCharger.UsbChargerState.notCharging;
+                    State = IChargeControl.UsbChargerState.notCharging;
                     break;
 				case double n when (n > 0 && n <= 5):
-					State = IUsbCharger.UsbChargerState.fullyCharged;
+					State = IChargeControl.UsbChargerState.fullyCharged;
 					display?.ShowDisplay("Phone is fully charged");
 					break;
                 case double n when (n > 5 && n <= 500):
-					State = IUsbCharger.UsbChargerState.charging;
+					State = IChargeControl.UsbChargerState.charging;
 					display?.ShowDisplay("Phone is charging");
                     break;
                 case double n when (n > 500):
 					StopCharge();
-					State = IUsbCharger.UsbChargerState.stopCharging;
+					State = IChargeControl.UsbChargerState.stopCharging;
 					display?.ShowDisplay("Something went wrong, charging stopped");
                     break;
             }
