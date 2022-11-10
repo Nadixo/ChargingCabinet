@@ -42,6 +42,7 @@ namespace ChargingCabinetNUnitTest
         [TestCase(1)]
         public void LockClosedDoorOnRFIDScan(int id)
         {
+            charger.Connected = true;
             door.CurrentDoorEvent += Raise.EventWith(new DoorEventArgs { doorState = doorState.Closed });
             rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = id });
 
@@ -62,6 +63,7 @@ namespace ChargingCabinetNUnitTest
         [TestCase(1, 2)]
         public void UnlockClosedDoorSetRFIDTwice(int oldId, int newId)
         {
+            charger.Connected = true;
             door.CurrentDoorEvent += Raise.EventWith(new DoorEventArgs { doorState = doorState.Closed });
             rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = oldId });
             rfidReader.RFIDReaderChangedEvent += Raise.EventWith(new RFIDReaderEventArgs { RFIDReaderValue = newId });
