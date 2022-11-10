@@ -25,12 +25,12 @@ namespace ChargingCabinet.Models
 		
 		public void StartCharge()
 		{
-			chargerSimulator?.StartCharge();
+			chargerSimulator!.StartCharge();
 		}
 
 		public void StopCharge()
 		{
-			chargerSimulator?.StopCharge();
+			chargerSimulator!.StopCharge();
 		}
 
 		public void HandleCurrentEvent(object? sender, CurrentEventArgs e)
