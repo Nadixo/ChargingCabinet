@@ -20,8 +20,8 @@ namespace ChargingCabinet.Interfaces
             fullyCharged,
             stopCharging
         }
-        void StartCharge() { }
-        void StopCharge() { }
+        void StartCharge();
+        void StopCharge();
         public bool Connected { get; set; }
     }
 }
