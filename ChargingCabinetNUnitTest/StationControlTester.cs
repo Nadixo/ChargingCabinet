@@ -16,13 +16,13 @@ namespace ChargingCabinetNUnitTest
         private StationControl stationControl;
         private IDoor door;
         private IRFIDReader rfidReader;
-        private UsbChargerSimulator charger;
+        private IChargeControl charger;
         private IDisplay display;
 
         [SetUp]
         public void Setup()
         {
-            charger = Substitute.For<UsbChargerSimulator>();
+            charger = Substitute.For<IChargeControl>();
             display = Substitute.For<IDisplay>();
             door = Substitute.For<IDoor>();
             rfidReader = Substitute.For<IRFIDReader>();
