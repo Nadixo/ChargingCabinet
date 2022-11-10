@@ -13,7 +13,6 @@ namespace ChargingCabinet.Models
 		UsbChargerSimulator chargerSimulator;
 		Display? display;
 
-		//public IUsbCharger.UsbChargerState usbState { get; set; }
 		public IChargeControl.UsbChargerState State { get; set; }
 
 		public ChargeControl(UsbChargerSimulator charger, Display display)
@@ -72,12 +71,5 @@ namespace ChargingCabinet.Models
             set { connected = chargerSimulator.Connected; }
 
         }
-
-
-		public event EventHandler<CurrentEventArgs> CurrentValueEvent
-		{
-			add { throw new NotImplementedException(); }
-			remove { throw new NotImplementedException(); }
-		}
     }
 }
