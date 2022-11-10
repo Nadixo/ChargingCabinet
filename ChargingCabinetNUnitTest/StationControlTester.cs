@@ -49,6 +49,17 @@ namespace ChargingCabinetNUnitTest
             door.Received().lockDoor();
         }
 
+        [Test]
+        public void LockDoorNothingHappens()
+        {
+            var stringWriter = new StringWriter();
+            Console.SetOut(stringWriter);
+
+            door.CurrentDoorEvent += Raise.EventWith(new DoorEventArgs { doorState = doorState.Locked });
+
+            Assert.That(stringWriter.ToString(), Is.EqualTo(""));
+        }
+
         [TestCase(1)]
         public void LockClosedDoorUnconnectedChargerOnRFIDScan(int id)
         {
